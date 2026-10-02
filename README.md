@@ -13,7 +13,7 @@
 
 **Claude · Codex · Cursor · Gemini CLI · Windsurf**
 
-[Descargar el ZIP](https://github.com/joshcreativos-ctrl/photoshop-mcp/archive/refs/heads/main.zip) · [Página](https://videazo.si/photoshop-mcp)
+[Descargar el instalador (.exe)](https://github.com/joshcreativos-ctrl/photoshop-mcp/releases/latest/download/Videazo-Photoshop-MCP-Setup.exe) · [Página](https://videazo.si/photoshop-mcp)
 
 <img src="assets/demo.jpg" alt="Diapositiva hecha por un agente con este MCP: fondo oscuro con luz verde, arco con trazo fino y textos Montserrat con tracking amplio" width="480">
 
@@ -50,23 +50,30 @@ Duplica este diseño a 4:5 para Instagram y exporta cada diapositiva en PNG.
 
 ## Instalar (Windows)
 
-**Requisitos:** Photoshop (probado en la **2026**, versión 27), [Node.js 18+](https://nodejs.org) y un agente compatible con MCP.
+**Requisitos:** Photoshop (probado en la **2026**, versión 27) y un agente compatible con MCP. **No necesitas instalar Node.js**: el instalador lo lleva dentro.
 
-### Opción A · Pega este prompt en tu agente
+### Opción A · El instalador (.exe) · recomendada
+
+1. Descarga **[Videazo-Photoshop-MCP-Setup.exe](https://github.com/joshcreativos-ctrl/photoshop-mcp/releases/latest/download/Videazo-Photoshop-MCP-Setup.exe)** (36 MB).
+2. Ábrelo, deja marcados los agentes que quieras conectar y pulsa **Instalar**. No pide administrador.
+3. Reinicia tu agente y pídele: *«usa ps_status»*.
+
+> Windows puede mostrar «Windows protegió su PC» porque el .exe no tiene firma de pago. Pulsa **Más información → Ejecutar de todos modos**. El código del instalador está en [`installer/`](installer/) y puedes compilarlo tú (`node installer/build.mjs`).
+
+Se desinstala desde **Configuración → Aplicaciones**, o con `Videazo-Photoshop-MCP-Setup.exe --uninstall`. Modo sin ventana: `--silent`.
+
+### Opción B · Pega este prompt en tu agente
 
 ```text
 Instala Free Photoshop MCP by Videazo Super Intelligence en mi computador (Windows). Pídeme confirmación antes de instalar:
-1. Comprueba que uso Windows, que tengo Photoshop y Node.js 18 o más.
-2. Dentro de la carpeta del proyecto ejecuta `node install.mjs --dry-run` y muéstrame qué va a hacer.
-3. Con mi sí, ejecuta `node install.mjs`. No necesita administrador.
-4. Dime que reinicie mi agente y pruébalo con la herramienta ps_status.
+1. Comprueba que uso Windows y que tengo Photoshop.
+2. Descarga solo desde este enlace: https://github.com/joshcreativos-ctrl/photoshop-mcp/releases/latest/download/Videazo-Photoshop-MCP-Setup.exe y guárdalo en una carpeta temporal.
+3. Con mi sí, ejecútalo con `--silent` (instala y conecta los agentes detectados, sin administrador).
+4. Dime que reinicie mi agente. Cuando vuelva, prueba con la herramienta ps_status.
 ```
 
-### Opción B · Doble clic
-Abre **`Instalar.cmd`**.
-
-### Opción C · A mano
-`node install.mjs`. Opciones: `--dry-run`, `--uninstall`, `--no-claude-code`, `--no-claude-desktop`, `--no-codex`, `--no-cursor`, `--no-gemini`, `--no-windsurf`.
+### Opción C · Desde el código (para desarrolladores)
+Con Node.js 18+: `node install.mjs` (opciones: `--dry-run`, `--uninstall`, `--no-claude-code`, `--no-claude-desktop`, `--no-codex`, `--no-cursor`, `--no-gemini`, `--no-windsurf`).
 
 El instalador copia el servidor a `%LOCALAPPDATA%\Videazo\ps-mcp` y lo registra como `photoshop` en los agentes que tengas. No toca Photoshop.
 

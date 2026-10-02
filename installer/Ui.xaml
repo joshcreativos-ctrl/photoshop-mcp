@@ -1,0 +1,266 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent" ResizeMode="NoResize"
+        Width="640" Height="760" WindowStartupLocation="CenterScreen" ShowInTaskbar="True"
+        SnapsToDevicePixels="True" UseLayoutRounding="True" TextOptions.TextFormattingMode="Ideal" TextOptions.TextRenderingMode="ClearType"
+        Title="Free Photoshop MCP · Videazo">
+  <Window.Resources>
+    <SolidColorBrush x:Key="Ciclorama" Color="#FFFDF8"/>
+    <SolidColorBrush x:Key="Mesa" Color="#F6F3EC"/>
+    <SolidColorBrush x:Key="Guia" Color="#E6E1D6"/>
+    <SolidColorBrush x:Key="Tinta" Color="#15130F"/>
+    <SolidColorBrush x:Key="Texto" Color="#4A463E"/>
+    <SolidColorBrush x:Key="Amarillo" Color="#F5C518"/>
+    <SolidColorBrush x:Key="Ambar" Color="#8A6A00"/>
+    <SolidColorBrush x:Key="Rec" Color="#E0362C"/>
+
+    <Style x:Key="Mono" TargetType="TextBlock">
+      <Setter Property="FontFamily" Value="{DynamicResource FontGeist}"/>
+      <Setter Property="FontSize" Value="11.5"/>
+      <Setter Property="Foreground" Value="{StaticResource Tinta}"/>
+    </Style>
+    <Style x:Key="Cuerpo" TargetType="TextBlock">
+      <Setter Property="FontFamily" Value="{DynamicResource FontFigtree}"/>
+      <Setter Property="FontSize" Value="16"/>
+      <Setter Property="Foreground" Value="{StaticResource Texto}"/>
+      <Setter Property="TextWrapping" Value="Wrap"/>
+      <Setter Property="LineHeight" Value="23"/>
+    </Style>
+    <Style x:Key="Titular" TargetType="TextBlock">
+      <Setter Property="FontFamily" Value="{DynamicResource FontMona}"/>
+      <Setter Property="FontSize" Value="40"/>
+      <Setter Property="Foreground" Value="{StaticResource Tinta}"/>
+      <Setter Property="LineHeight" Value="40"/>
+      <Setter Property="LineStackingStrategy" Value="BlockLineHeight"/>
+    </Style>
+
+    <!-- Botón principal: amarillo, tinta, esquinas redondeadas -->
+    <Style x:Key="BotonPrincipal" TargetType="Button">
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Foreground" Value="{StaticResource Tinta}"/>
+      <Setter Property="FontFamily" Value="{DynamicResource FontMona}"/>
+      <Setter Property="FontSize" Value="20"/>
+      <Setter Property="Height" Value="60"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border x:Name="Fondo" CornerRadius="18" Background="{StaticResource Amarillo}" RenderTransformOrigin="0.5,0.5" BorderBrush="{StaticResource Tinta}" BorderThickness="0">
+              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Fondo" Property="Background" Value="#FFD23F"/></Trigger>
+              <Trigger Property="IsPressed" Value="True"><Setter TargetName="Fondo" Property="Opacity" Value="0.86"/></Trigger>
+              <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Fondo" Property="Opacity" Value="0.45"/></Trigger>
+              <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Fondo" Property="BorderThickness" Value="3"/></Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <!-- Botón secundario: contorno de tinta -->
+    <Style x:Key="BotonSecundario" TargetType="Button" BasedOn="{StaticResource BotonPrincipal}">
+      <Setter Property="Height" Value="48"/>
+      <Setter Property="FontSize" Value="16"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border x:Name="Fondo" CornerRadius="14" Background="Transparent" BorderBrush="{StaticResource Guia}" BorderThickness="2">
+              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Fondo" Property="BorderBrush" Value="{StaticResource Tinta}"/></Trigger>
+              <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Fondo" Property="BorderBrush" Value="{StaticResource Tinta}"/></Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <!-- Píldora de agente: apagada = guía, encendida = clip seleccionado amarillo -->
+    <Style x:Key="Pildora" TargetType="ToggleButton">
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="FontFamily" Value="{DynamicResource FontFigtreeBold}"/>
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="Foreground" Value="{StaticResource Tinta}"/>
+      <Setter Property="Margin" Value="0,0,8,8"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ToggleButton">
+            <Border x:Name="Fondo" CornerRadius="14" Padding="14,9" Background="{StaticResource Ciclorama}" BorderBrush="{StaticResource Guia}" BorderThickness="2">
+              <StackPanel Orientation="Horizontal">
+                <Border x:Name="Marca" Width="16" Height="16" CornerRadius="5" Background="Transparent" BorderBrush="{StaticResource Guia}" BorderThickness="2" Margin="0,0,9,0" VerticalAlignment="Center">
+                  <TextBlock x:Name="Tilde" Text="✓" FontSize="11" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" Foreground="{StaticResource Tinta}"/>
+                </Border>
+                <ContentPresenter VerticalAlignment="Center"/>
+              </StackPanel>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="Fondo" Property="Background" Value="#FFF3C4"/>
+                <Setter TargetName="Fondo" Property="BorderBrush" Value="{StaticResource Tinta}"/>
+                <Setter TargetName="Marca" Property="Background" Value="{StaticResource Amarillo}"/>
+                <Setter TargetName="Marca" Property="BorderBrush" Value="{StaticResource Tinta}"/>
+                <Setter TargetName="Tilde" Property="Visibility" Value="Visible"/>
+              </Trigger>
+              <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Fondo" Property="BorderBrush" Value="{StaticResource Tinta}"/></Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </Window.Resources>
+
+  <Grid Margin="26">
+    <Border x:Name="Tarjeta" CornerRadius="28" Background="{StaticResource Ciclorama}" BorderBrush="{StaticResource Guia}" BorderThickness="1">
+      <Border.Effect><DropShadowEffect BlurRadius="34" ShadowDepth="10" Direction="270" Opacity="0.30" Color="#15130F"/></Border.Effect>
+      <Border CornerRadius="27" ClipToBounds="True">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+          </Grid.RowDefinitions>
+
+          <!-- Barra superior: pista V1 + REC + cerrar -->
+          <Border x:Name="Barra" Grid.Row="0" Background="{StaticResource Mesa}" BorderBrush="{StaticResource Guia}" BorderThickness="0,0,0,1" Height="54">
+            <Grid Margin="22,0,12,0">
+              <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Ellipse x:Name="PuntoRec" Width="9" Height="9" Fill="{StaticResource Rec}" Margin="0,0,10,0"/>
+                <TextBlock x:Name="TxtBarra" Style="{StaticResource Mono}" Text="VIDEAZO.SI · INSTALADOR"/>
+              </StackPanel>
+              <Button x:Name="BtnCerrar" HorizontalAlignment="Right" VerticalAlignment="Center" Width="34" Height="34" Cursor="Hand" ToolTip="Cerrar">
+                <Button.Template>
+                  <ControlTemplate TargetType="Button">
+                    <Border x:Name="Fondo" CornerRadius="17" Background="Transparent">
+                      <TextBlock Text="✕" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource Tinta}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                      <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Fondo" Property="Background" Value="#E6E1D6"/></Trigger>
+                    </ControlTemplate.Triggers>
+                  </ControlTemplate>
+                </Button.Template>
+              </Button>
+            </Grid>
+          </Border>
+
+          <!-- Páginas -->
+          <Grid Grid.Row="1" Margin="38,30,38,0">
+
+            <!-- 1 · Bienvenida -->
+            <Grid x:Name="PagBienvenida">
+              <Grid.RenderTransform><TranslateTransform x:Name="DespBienvenida" Y="0"/></Grid.RenderTransform>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/>
+              </Grid.RowDefinitions>
+              <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,14">
+                <TextBlock x:Name="TxtEtiqueta" Style="{StaticResource Mono}" Foreground="{StaticResource Texto}" Text="FREE PHOTOSHOP MCP · V0.1.0"/>
+              </StackPanel>
+              <StackPanel Grid.Row="1">
+                <TextBlock x:Name="TxtT1" Style="{StaticResource Titular}" Text="Tu agente maneja"/>
+                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                  <Grid Margin="0,0,0,0">
+                    <Border Background="{StaticResource Amarillo}" Margin="0,3,0,2"/>
+                    <TextBlock x:Name="TxtClip" Style="{StaticResource Titular}" Text="Photoshop" Margin="10,0,10,0"/>
+                    <Border HorizontalAlignment="Left" Width="4" Background="{StaticResource Tinta}" CornerRadius="1" Margin="0,0,0,0"/>
+                    <Border HorizontalAlignment="Right" Width="4" Background="{StaticResource Tinta}" CornerRadius="1" Margin="0,0,0,0"/>
+                  </Grid>
+                  <TextBlock x:Name="TxtT2" Style="{StaticResource Titular}" Text=" por ti."/>
+                </StackPanel>
+                <TextBlock x:Name="TxtLead" Style="{StaticResource Cuerpo}" Margin="0,18,0,0"/>
+              </StackPanel>
+
+              <StackPanel Grid.Row="2" Margin="0,24,0,0">
+                <Grid Margin="0,0,0,10">
+                  <TextBlock x:Name="TxtEtqEncontre" Style="{StaticResource Mono}" Foreground="{StaticResource Tinta}" Text="LO QUE ENCONTRÉ"/>
+                  <Border Height="1" Background="{StaticResource Guia}" VerticalAlignment="Bottom" Margin="0,0,0,-6"/>
+                </Grid>
+                <Border CornerRadius="14" Background="{StaticResource Mesa}" Padding="16,12" Margin="0,8,0,0">
+                  <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                      <TextBlock x:Name="IcoPs" Text="●" FontSize="12" Foreground="{StaticResource Rec}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                      <TextBlock x:Name="TxtPs" Style="{StaticResource Cuerpo}" FontSize="15" Foreground="{StaticResource Tinta}"/>
+                    </StackPanel>
+                    <TextBlock x:Name="TxtCarpeta" Style="{StaticResource Mono}" Foreground="{StaticResource Texto}" Margin="22,6,0,0" TextWrapping="Wrap"/>
+                  </StackPanel>
+                </Border>
+              </StackPanel>
+
+              <StackPanel Grid.Row="3" Margin="0,22,0,0">
+                <Grid Margin="0,0,0,12">
+                  <TextBlock x:Name="TxtEtqConectar" Style="{StaticResource Mono}" Text="CONECTAR CON"/>
+                  <Border Height="1" Background="{StaticResource Guia}" VerticalAlignment="Bottom" Margin="0,0,0,-6"/>
+                </Grid>
+                <WrapPanel x:Name="PanelAgentes" Margin="0,6,0,0"/>
+                <TextBlock x:Name="TxtSinAgentes" Style="{StaticResource Cuerpo}" FontSize="14" Visibility="Collapsed"/>
+              </StackPanel>
+
+              <StackPanel Grid.Row="5" Margin="0,0,0,26">
+                <Button x:Name="BtnInstalar" Style="{StaticResource BotonPrincipal}" Content="Instalar"/>
+                <Grid Margin="0,14,0,0">
+                  <TextBlock x:Name="TxtNota" Style="{StaticResource Mono}" Foreground="{StaticResource Texto}" FontSize="11" Text="Gratis · código abierto (MIT)" VerticalAlignment="Center"/>
+                  <TextBlock x:Name="BtnDesinstalar" Style="{StaticResource Mono}" Text="DESINSTALAR" HorizontalAlignment="Right" Cursor="Hand" TextDecorations="Underline" Visibility="Collapsed"/>
+                </Grid>
+              </StackPanel>
+            </Grid>
+
+            <!-- 2 · Instalando -->
+            <Grid x:Name="PagProgreso" Visibility="Collapsed" Opacity="0">
+              <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+              <TextBlock x:Name="TxtEtqProg" Grid.Row="0" Style="{StaticResource Mono}" Foreground="{StaticResource Texto}" Text="MONTANDO LA PISTA" Margin="0,0,0,14"/>
+              <TextBlock x:Name="TxtTituloProg" Grid.Row="1" Style="{StaticResource Titular}" Text="Instalando…"/>
+              <!-- línea de tiempo: pista, relleno y cabezal REC -->
+              <Grid Grid.Row="2" Margin="0,30,0,0" Height="34">
+                <Border x:Name="Pista" Height="12" CornerRadius="6" Background="{StaticResource Guia}" VerticalAlignment="Center"/>
+                <Border x:Name="Relleno" Height="12" CornerRadius="6" Background="{StaticResource Amarillo}" VerticalAlignment="Center" HorizontalAlignment="Stretch" RenderTransformOrigin="0,0.5">
+                  <Border.RenderTransform><ScaleTransform x:Name="EscalaRelleno" ScaleX="0"/></Border.RenderTransform>
+                </Border>
+                <Border x:Name="Cabezal" Width="3" Height="32" Background="{StaticResource Rec}" CornerRadius="2" HorizontalAlignment="Left" VerticalAlignment="Center">
+                  <Border.RenderTransform><TranslateTransform x:Name="DespCabezal" X="0"/></Border.RenderTransform>
+                </Border>
+              </Grid>
+              <TextBlock x:Name="TxtPorcentaje" Grid.Row="2" Style="{StaticResource Mono}" Text="00:00" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,-18"/>
+              <StackPanel x:Name="PanelPasos" Grid.Row="3" Margin="0,44,0,0"/>
+              <Border x:Name="CajaError" Grid.Row="4" Visibility="Collapsed" CornerRadius="14" Background="#FDECEA" BorderBrush="{StaticResource Rec}" BorderThickness="1" Padding="16,12" Margin="0,0,0,18">
+                <TextBlock x:Name="TxtError" Style="{StaticResource Cuerpo}" FontSize="14" Foreground="#7A1C15"/>
+              </Border>
+            </Grid>
+
+            <!-- 3 · Listo -->
+            <Grid x:Name="PagListo" Visibility="Collapsed" Opacity="0">
+              <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+              <TextBlock x:Name="TxtEtqListo" Grid.Row="0" Style="{StaticResource Mono}" Foreground="{StaticResource Texto}" Text="CORTE FINAL" Margin="0,0,0,14"/>
+              <StackPanel Grid.Row="1">
+                <TextBlock x:Name="TxtListo1" Style="{StaticResource Titular}" Text="Listo. Tu agente ya"/>
+                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                  <TextBlock x:Name="TxtListo2" Style="{StaticResource Titular}" Text="puede abrir "/>
+                  <Grid>
+                    <Border Background="{StaticResource Amarillo}" Margin="0,3,0,2"/>
+                    <TextBlock x:Name="TxtListoClip" Style="{StaticResource Titular}" Text="Photoshop" Margin="10,0,10,0"/>
+                    <Border HorizontalAlignment="Left" Width="4" Background="{StaticResource Tinta}" CornerRadius="1"/>
+                    <Border HorizontalAlignment="Right" Width="4" Background="{StaticResource Tinta}" CornerRadius="1"/>
+                  </Grid>
+                  <TextBlock Style="{StaticResource Titular}" Text="."/>
+                </StackPanel>
+              </StackPanel>
+              <StackPanel Grid.Row="2" Margin="0,28,0,0" x:Name="PanelSiguiente"/>
+              <Border Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Background="{StaticResource Amarillo}" Padding="16,8" RenderTransformOrigin="0.5,0.5" Margin="0,0,6,0" CornerRadius="2">
+                <Border.RenderTransform><RotateTransform Angle="-4"/></Border.RenderTransform>
+                <TextBlock x:Name="TxtNotaMano" Text="¡a diseñar!" FontFamily="{DynamicResource FontMarker}" FontSize="22" Foreground="{StaticResource Tinta}"/>
+              </Border>
+              <StackPanel Grid.Row="4" Margin="0,0,0,26">
+                <Button x:Name="BtnCerrarFin" Style="{StaticResource BotonPrincipal}" Content="Cerrar"/>
+                <TextBlock x:Name="BtnPagina" Style="{StaticResource Mono}" Text="VER LA PÁGINA" HorizontalAlignment="Center" Margin="0,14,0,0" Cursor="Hand" TextDecorations="Underline"/>
+              </StackPanel>
+            </Grid>
+          </Grid>
+
+          <!-- Pie legal -->
+          <Border Grid.Row="2" Background="{StaticResource Mesa}" BorderBrush="{StaticResource Guia}" BorderThickness="0,1,0,0" Padding="22,12">
+            <TextBlock x:Name="TxtLegal" Style="{StaticResource Mono}" FontSize="10" Foreground="{StaticResource Texto}" TextWrapping="Wrap" Text="Photoshop es de Adobe. Videazo no está afiliado a Adobe."/>
+          </Border>
+        </Grid>
+      </Border>
+    </Border>
+  </Grid>
+</Window>
