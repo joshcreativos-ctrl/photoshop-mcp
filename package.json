@@ -1,0 +1,25 @@
+{
+  "name": "photoshop-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Free Photoshop MCP by Videazo Super Intelligence: controla Adobe Photoshop (capas, texto, efectos, mezclas, máscaras, ajustes, filtros) y aprende tu estilo.",
+  "type": "module",
+  "main": "server.mjs",
+  "scripts": {
+    "start": "node server.mjs",
+    "check": "node --check server.mjs && node --check ps-client.mjs && node --check styles.mjs && node --check install.mjs",
+    "test": "node test/suite.mjs",
+    "test:mcp": "node test/mcp-client.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "zod": "^3.25.0"
+  },
+  "license": "MIT",
+  "repository": { "type": "git", "url": "git+https://github.com/joshcreativos-ctrl/photoshop-mcp.git" },
+  "homepage": "https://videazo.si/photoshop-mcp",
+  "bin": { "photoshop-mcp": "install.mjs" },
+  "engines": { "node": ">=18" },
+  "os": ["win32"],
+  "keywords": ["mcp", "model-context-protocol", "photoshop", "adobe", "claude", "extendscript", "videazo"]
+}
